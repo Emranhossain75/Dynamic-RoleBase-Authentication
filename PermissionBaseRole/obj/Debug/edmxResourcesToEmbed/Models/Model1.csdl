@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="UserRolesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Page">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PageNames" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="RoleDetails" Relationship="Self.FK_RoleDetail_Pages" FromRole="Pages" ToRole="RoleDetail" />
+  </EntityType>
+  <EntityType Name="RoleDetail">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PageID" Type="Int32" Nullable="false" />
+    <Property Name="RoleID" Type="Int32" Nullable="false" />
+    <Property Name="Action" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Page" Relationship="Self.FK_RoleDetail_Pages" FromRole="RoleDetail" ToRole="Pages" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_RoleDetail_Roles" FromRole="RoleDetail" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="RoleDetails" Relationship="Self.FK_RoleDetail_Roles" FromRole="Roles" ToRole="RoleDetail" />
+    <NavigationProperty Name="Users" Relationship="UserRolesModel.FK_Users_Roles" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Age" Type="Int32" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_RoleDetail_Pages">
+    <End Role="Pages" Type="Self.Page" Multiplicity="1" />
+    <End Role="RoleDetail" Type="Self.RoleDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pages">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RoleDetail">
+        <PropertyRef Name="PageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RoleDetail_Roles">
+    <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+    <End Role="RoleDetail" Type="Self.RoleDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RoleDetail">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="UserRolesEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Pages" EntityType="Self.Page" />
+    <EntitySet Name="RoleDetails" EntityType="Self.RoleDetail" />
+    <EntitySet Name="Roles" EntityType="Self.Role" />
+    <EntitySet Name="students" EntityType="Self.student" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_RoleDetail_Pages" Association="Self.FK_RoleDetail_Pages">
+      <End Role="Pages" EntitySet="Pages" />
+      <End Role="RoleDetail" EntitySet="RoleDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RoleDetail_Roles" Association="Self.FK_RoleDetail_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="RoleDetail" EntitySet="RoleDetails" />
+    </AssociationSet>
+    <EntitySet Name="Users" EntityType="UserRolesModel.User" />
+    <AssociationSet Name="FK_Users_Roles" Association="UserRolesModel.FK_Users_Roles">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="RoleID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Role" Relationship="UserRolesModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
+  </EntityType>
+  <Association Name="FK_Users_Roles">
+    <End Type="UserRolesModel.Role" Role="Role" Multiplicity="1" />
+    <End Type="UserRolesModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

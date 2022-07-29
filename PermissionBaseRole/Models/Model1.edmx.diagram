@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="649c6cc78f144b7581a75f20ac7f03c8" Name="Diagram1">
+        <EntityTypeShape EntityType="UserRolesModel.Page" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UserRolesModel.RoleDetail" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="UserRolesModel.Role" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UserRolesModel.student" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UserRolesModel.sysdiagram" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="UserRolesModel.FK_RoleDetail_Pages" ManuallyRouted="false" />
+        <AssociationConnector Association="UserRolesModel.FK_RoleDetail_Roles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="UserRolesModel.User" Width="1.5" PointX="3" PointY="8" />
+        <AssociationConnector Association="UserRolesModel.FK_Users_Roles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

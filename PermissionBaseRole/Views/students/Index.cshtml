@@ -1,0 +1,52 @@
+﻿@model IEnumerable<PermissionBaseRole.Models.student>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionBaseRole.Controllers.LoginController.UserSession u = (PermissionBaseRole.Controllers.LoginController.UserSession)Session["UserSession"];
+}
+@if (u.Permission.Where(x => x.PageID == 1 && x.Action == "read").Count() > 0)
+{
+
+
+    <h2>Index</h2>
+    if (u.Permission.Where(x => x.PageID == 1 && x.Action == "create").Count() > 0)
+    {
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    }
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @if (u.Permission.Where(x => x.PageID == 1 && x.Action == "update").Count() > 0)
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                        @Html.Raw("|")
+                    }
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
